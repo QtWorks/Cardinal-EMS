@@ -353,28 +353,6 @@ void EngineMonitor::setFuelData(double fuelFlowValue, double fuelAbsoluteValue)
 	fuelManagement.reduceFuelAmount(fuelAbsoluteValue);
 }
 
-void EngineMonitor::setTimeToDestination(double time)
-{
-	timeToDestinationItem.setPlainText(QString::number(time, 'f', 1).prepend("Time to destination: ").append(" minutes"));
-	fuelManagement.setTimeToDestination(time);
-    fuelDisplay.setTimeToDestination(time);
-}
-
-void EngineMonitor::userMessageHandler(QString title, QString content, bool endApplication)
-{
-	QMessageBox::warning(this, title, content);
-	if(endApplication)
-	{
-		qApp->quit();
-	}
-}
-
-void EngineMonitor::showStatusMessage(QString text, QColor color)
-{
-	statusItem.setPlainText(text);
-	statusItem.setDefaultTextColor(color);
-}
-
 void EngineMonitor::demoFunction()
 {
 	qsrand(QDateTime::currentDateTime().toTime_t());
@@ -522,5 +500,58 @@ void EngineMonitor::setValuesBulkUpdate(quint16 rpm, quint16 fuelFlowValue, quin
     }
 }
 
+void EngineMonitor::setDataMessage1(double fuelFlowValue, double fuelAbsoluteValue)
+{
+    fuelFlow.setValue(fuelFlowValue);
+    fuelDisplay.setFuelFlow(fuelFlowValue);
+    fuelDisplay.reduceFuelAmount(fuelAbsoluteValue);
+}
 
+void EngineMonitor::setDataMessage2(double insideAirTemperatureValue, double outsideAirTemperatureValue, double ampereValue, double oilTemperatureValue, double oilPressureValue, double voltageValue, double manifoldPressureValue)
+{
+    insideAirTemperature.setValue(insideAirTemperatureValue);
+    outsideAirTemperature.setValue(outsideAirTemperatureValue);
+    ampereMeter.setValue(ampereValue);
+    oilTemperature.setValue(oilTemperatureValue);
+    oilPressure.setValue(oilPressureValue);
+    voltMeter.setValue(voltageValue);
+    manifoldPressure.setValue(manifoldPressureValue);
+}
+
+void EngineMonitor::setDataMessage3(double revolutionPerMinute)
+{
+    rpmIndicator.setValue(revolutionPerMinute);
+}
+
+void EngineMonitor::setDataMessage4egt(quint16 egt1, quint16 egt2, quint16 egt3, quint16 egt4)
+{
+    chtEgt.setEgtValues(egt1, egt2, egt3, egt4);
+}
+
+void EngineMonitor::setDataMessage4cht(quint16 cht1, quint16 cht2, quint16 cht3, quint16 cht4)
+{
+    chtEgt.setChtValues(cht1, cht2, cht3, cht4);
+}
+
+void EngineMonitor::setTimeToDestination(double time)
+{
+    timeToDestinationItem.setPlainText(QString::number(time, 'f', 1).prepend("Time to destination: ").append(" minutes"));
+    fuelManagement.setTimeToDestination(time);
+    fuelDisplay.setTimeToDestination(time);
+}
+
+void EngineMonitor::userMessageHandler(QString title, QString content, bool endApplication)
+{
+    QMessageBox::warning(this, title, content);
+    if(endApplication)
+    {
+        qApp->quit();
+    }
+}
+
+void EngineMonitor::showStatusMessage(QString text, QColor color)
+{
+    statusItem.setPlainText(text);
+    statusItem.setDefaultTextColor(color);
+}
 

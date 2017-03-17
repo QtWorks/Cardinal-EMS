@@ -121,18 +121,18 @@ int main(int argc, char *argv[])
 #endif
 	splash.finish(&engineMonitor);
 
-//	//Create the RDAC connector
-//	RDACconnect rdacConnect;
-//	a.connect(&rdacConnect, SIGNAL(updateDataMessage1(double, double)), &engineMonitor, SLOT(setDataMessage1(double, double)));
-//	a.connect(&rdacConnect, SIGNAL(updateDataMessage2(double,double,double,double,double,double,double)), &engineMonitor, SLOT(setDataMessage2(double,double,double,double,double,double,double)));
-//	a.connect(&rdacConnect, SIGNAL(updateDataMessage3(double)), &engineMonitor, SLOT(setDataMessage3(double)));
-//	a.connect(&rdacConnect, SIGNAL(updateDataMessage4egt(quint16,quint16,quint16,quint16)), &engineMonitor, SLOT(setDataMessage4egt(quint16,quint16,quint16,quint16)));
-//	a.connect(&rdacConnect, SIGNAL(updateDataMessage4cht(quisetEgtValuent16,quint16,quint16,quint16)), &engineMonitor, SLOT(setDataMessage4cht(quint16,quint16,quint16,quint16)));
-//	a.connect(&rdacConnect, SIGNAL(userMessage(QString,QString,bool)), &engineMonitor, SLOT(userMessageHandler(QString,QString,bool)));
-//	a.connect(&rdacConnect, SIGNAL(statusMessage(QString,QColor)), &engineMonitor, SLOT(showStatusMessage(QString,QColor)));
-//#ifndef QT_DEBUG
-//	rdacConnect.start();
-//#endif
+    //Create the RDAC connector
+    RDACconnect rdacConnect;
+    a.connect(&rdacConnect, SIGNAL(updateDataMessage1(double, double)), &engineMonitor, SLOT(setDataMessage1(double, double)));
+    a.connect(&rdacConnect, SIGNAL(updateDataMessage2(double,double,double,double,double,double,double)), &engineMonitor, SLOT(setDataMessage2(double,double,double,double,double,double,double)));
+    a.connect(&rdacConnect, SIGNAL(updateDataMessage3(double)), &engineMonitor, SLOT(setDataMessage3(double)));
+    a.connect(&rdacConnect, SIGNAL(updateDataMessage4egt(quint16,quint16,quint16,quint16)), &engineMonitor, SLOT(setDataMessage4egt(quint16,quint16,quint16,quint16)));
+    a.connect(&rdacConnect, SIGNAL(updateDataMessage4cht(quint16,quint16,quint16,quint16)), &engineMonitor, SLOT(setDataMessage4cht(quint16,quint16,quint16,quint16)));
+    a.connect(&rdacConnect, SIGNAL(userMessage(QString,QString,bool)), &engineMonitor, SLOT(userMessageHandler(QString,QString,bool)));
+    a.connect(&rdacConnect, SIGNAL(statusMessage(QString,QColor)), &engineMonitor, SLOT(showStatusMessage(QString,QColor)));
+#ifndef QT_DEBUG
+    rdacConnect.start();
+#endif
 
 	NMEAconnect nmeaConnect;
 	a.connect(&nmeaConnect, SIGNAL(userMessage(QString,QString,bool)), &engineMonitor, SLOT(userMessageHandler(QString,QString,bool)));
@@ -144,8 +144,6 @@ int main(int argc, char *argv[])
     SensorConvert sensorConvert;
     a.connect(&sensorConvert, SIGNAL(userMessage(QString,QString,bool)), &engineMonitor, SLOT(userMessageHandler(QString,QString,bool)));
     a.connect(&sensorConvert, SIGNAL(updateMonitor(quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16)), &engineMonitor, SLOT(setValuesBulkUpdate(quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16,quint16)));
-    a.connect(&sensorConvert, SIGNAL(updateFuelData(double,double)), &engineMonitor, SLOT(setFuelData(double,double)));
-    a.connect(&sensorConvert, SIGNAL(statusMessage(QString,QColor)), &engineMonitor, SLOT(showStatusMessage(QString,QColor)));
 
     QString portName = QLatin1String("ttyACM0");              // update this to use your port of choice
     PortListener listener(portName);        // signals get hooked up internally
