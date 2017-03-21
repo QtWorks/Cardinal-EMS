@@ -4,6 +4,8 @@
 #include <QtWidgets>
 #include <QFile>
 
+#include <wiringPi.h>
+
 class ButtonBar : public QGraphicsObject
 {
     Q_OBJECT
@@ -15,7 +17,11 @@ public:
 
     int numOfButtons = 4;
     int buttonLocation = 1; // 1-Bottom; 2-Top; 3-Left Side; 4-Right Side
-    int buttonDisplay = 1; //1-Menu; 2-Fuel; 3-Settings
+    static int buttonDisplay; //1-Menu; 2-Fuel; 3-Settings
+    static void button1Clicked();
+    static void button2Clicked();
+    static void button3Clicked();
+    static int buttonPushed;
 
 private:
     QRectF buttonRect1 = QRectF(0,-50.0,100,50);
@@ -28,6 +34,9 @@ private:
 signals:
     void sendAlarmAck();
     void sendFuelChange(QString changeDirection); //  + or -
+
+public slots:
+    void onAlarmFlash(int state);
 };
 
 #endif // BUTTONBAR_H

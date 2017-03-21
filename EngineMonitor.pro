@@ -70,3 +70,4 @@ RESOURCES += \
 LIBS += -L~/Avionics/ems/wiringPi -lwiringPi
 
 include(./qextserialport/qextserialport.pri)
+INCLUDEPATH +=./wiringPi/wiringPi

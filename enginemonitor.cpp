@@ -100,6 +100,9 @@ EngineMonitor::EngineMonitor(QWidget *parent) : QGraphicsView(parent)
     // Connect buttonBar to the fuelDisplay window to increment fuel amount
     connect(&buttonBar, SIGNAL(sendFuelChange(QString)), &fuelDisplay, SLOT(onFuelAmountChange(QString)));
 
+    // Connect buttonBar to the fuelDisplay window to increment fuel amount
+    connect(&alarmWindow, SIGNAL(sendAlarmFlash(int)), &buttonBar, SLOT(onAlarmFlash(int)));
+
 	//Demo timer, for testing purposes only
 #ifdef QT_DEBUG
 	QTimer *demoTimer = new QTimer(this);
@@ -107,6 +110,7 @@ EngineMonitor::EngineMonitor(QWidget *parent) : QGraphicsView(parent)
 	demoTimer->setSingleShot(false);
 	demoTimer->start(200);
 #endif
+
 }
 
 EngineMonitor::~EngineMonitor()

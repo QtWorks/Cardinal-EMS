@@ -2,11 +2,10 @@
 
 AlarmBox::AlarmBox(QGraphicsObject *parent) : QGraphicsObject(parent)
 {
-//    wiringPiSetupSys();
-//    pinMode(18, OUTPUT);
+//    pinMode(24, OUTPUT);
 //    pinMode(17, INPUT);
 
-//    wiringPiISR(17,INT_EDGE_FALLING, &buttonClicked);
+    //wiringPiISR(17,INT_EDGE_FALLING, &buttonClicked);
 
 }
 
@@ -81,12 +80,12 @@ void AlarmBox::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void AlarmBox::soundAlarm(int alarmColor, int alarmSeverity, QString alarmText, QString alarmGauge)
 {
-    digitalWrite(18, HIGH);
+    digitalWrite(24, HIGH);
 }
 
 void AlarmBox::buttonClicked()
 {
-    digitalWrite(18, LOW);
+    digitalWrite(24, LOW);
 }
 
 void AlarmBox::onRemoveAlarm(QString text)
@@ -125,6 +124,11 @@ void AlarmBox::onAlarm(QString text, QColor color, bool flashing)
 
     alarmCount++;
 
+    if (color==Qt::red) {
+        lightFlashState = true;
+        lightState = true;
+    }
+
     QSound::play("elevator-ding.wav");
 
 }
@@ -133,8 +137,16 @@ void AlarmBox::changeFlashState()
 {
     if (flashState == false) {
         flashState  = true;
+        if (alarmCount > 0 && lightFlashState == true) {
+            emit sendAlarmFlash(1);
+            lightState = true;
+        }
     } else {
         flashState = false;
+        if (alarmCount > 0 && lightFlashState == true) {
+            emit sendAlarmFlash(0);
+            lightState = false;
+        }
     }
 }
 
@@ -143,5 +155,17 @@ void AlarmBox::onAlarmAck() {
         if (alarmFlash[i]==true) {
             alarmFlash[i]=false;
         }
+
+        if (alarmColor[i]==Qt::red) {
+            lightFlashState = false;
+            emit sendAlarmFlash(1);
+            lightState = true;
+        } else if (alarmColor[i]!=Qt::red && lightState !=true) {
+            lightFlashState = false;
+            emit sendAlarmFlash(0);
+            lightState = false;
+        }
+
+
     }
 }

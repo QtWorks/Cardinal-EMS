@@ -25,6 +25,8 @@ private:
     int boundingWidth = 100;
     int boundingHeight = 200;
     bool flashState = false;
+    bool lightFlashState = false;
+    bool lightState = false;
 
 public:
     explicit AlarmBox(QGraphicsObject * parent = 0);
@@ -41,6 +43,9 @@ public slots:
     void onRemoveAlarm(QString text);
     void changeFlashState();
     void onAlarmAck();
+
+signals:
+    void sendAlarmFlash(int state);
 
 };
 
